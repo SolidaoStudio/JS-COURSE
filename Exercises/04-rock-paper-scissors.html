@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rock, Paper, Scissors</title>
-    <link rel="stylesheet" href="./css/04-booleans.css" />
+    <link rel="stylesheet" href="./css/04-rock-paper-scissors.css" />
   </head>
   <body>
     <h1>Rock, Paper, Scissors</h1>
@@ -21,15 +21,17 @@
 
     <!-- Submit Button -->
     <div>
-      <button onclick="send()">Send</button>
+      <button class="send">Send</button>
+      <button class="reset">Reset</button>
     </div>
 
     <!-- Result Display -->
     <div>
       <p id="result"></p>
+      <p id="scoreText">Wins : 0 | Losses : 0 | Draws : 0</p>
     </div>
 
     <!-- External JS Script -->
-    <script src="./script/04-boolean.js"></script>
+    <script src="./script/04-rock-paper-scissors.js"></script>
   </body>
 </html>
