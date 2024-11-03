@@ -4,7 +4,71 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DOM</title>
-  </head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <style>
+      #subscribeButton{
+        background-color: red;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        font-family: roboto;
+        padding: 10px 15px;
+        border: 0;
+        border-radius: 30px;
+      }
+      .youtubeContainer label{
+        font-size: 24px;
+        font-family: roboto;
+      }
+
+      .rpsContainer p{
+        font-size: 24px;
+        font-family: roboto;
+        margin: 10px 0 4px 0;
+      }
+      .rpsContainer a{
+        font-size: 16px;
+        font-family: roboto;
+        text-decoration: none;
+        color: cadetblue;
+      }
+      
+      .amazonContainer t{
+        font-family: roboto;
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+      .amazonContainer p{
+        font-family: roboto;
+        font-size: 16px;
+        margin: 4px 0;
+        padding: 0;
+      }
+
+      .calculateContainer{
+        width: 500px;
+        display: grid;
+      }
+      .amazonContainer input{
+        font-family: roboto;
+        font-size: 14px;
+        border: 1px solid black;
+        padding: 13px;
+        box-sizing: border-box;
+        margin: 10px 0 0 0;
+      }
+      .amazonContainer button{
+        border: 0;
+        padding: 14px;
+        background-color: rgb(68, 137, 34);
+        color: white;
+        font-size: 14px;
+        margin: 0;
+      }
+
+    </style>
   <body>
     <div class="youtubeContainer">
       <label for="subscribeButton">Youtube Subscribe Button</label>
@@ -12,13 +76,14 @@
       <br />
       <button id="subscribeButton">Subscribe</button>
     </div>
+    <br />
     <div class="rpsContainer">
       <p>Rock Paper Scissors</p>
-      <br />
       <a href="">Click here</a>
     </div>
-    <div amazonContainer>
-      <p>Amazon Shipping Calculator.</p>
+    <br>
+    <div class="amazonContainer">
+      <t>Amazon Shipping Calculator.</t>
       <p>Order under $40 = +$10 shipping.</p>
       <p>Orders over $40 = FREE shipping.</p>
       <div class="CalculateContainer">

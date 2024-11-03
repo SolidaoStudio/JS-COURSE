@@ -27,6 +27,14 @@ function getResult(playerChoice, computerChoice) {
 
     //Final
     document.getElementById("result").innerHTML= result;
+    document.getElementById("played").innerHTML= `
+        <br>
+        <span>You : </span>
+        <img src="./img/${playerChoice}-emoji.png"></img>
+        <span>Vs</span>
+        <img src="./img/${computerChoice}-emoji.png"></img> 
+        <span>: Com</span>
+    ` 
     document.getElementById("scoreText").innerHTML= `Wins : ${score.wins} | Losses : ${score.loses} | Draws : ${score.draws}`;
     
     //Memory

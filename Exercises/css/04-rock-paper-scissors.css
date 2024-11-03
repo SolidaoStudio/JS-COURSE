@@ -68,6 +68,13 @@ button:hover {
     font-weight: bold;
     text-align: center;
 }
+#played {
+    text-align: center;
+}
+
+#played img{
+    height: 50px;
+}
 
 #scoreText {
     margin-top: 10px;

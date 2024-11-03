@@ -12,11 +12,17 @@
 
     <!-- Options Form -->
     <form>
+      <label> </label>
       <label>
-        <input type="radio" name="choice" value="scissors" /> Scissors
+        <input type="radio" name="choice" value="rock" />
+        <img src="./img/rock-emoji.png" alt="" />
       </label>
-      <label> <input type="radio" name="choice" value="rock" /> Rock </label>
-      <label> <input type="radio" name="choice" value="paper" /> Paper </label>
+      <label>
+        <input type="radio" name="choice" value="paper" />
+        <img src="./img/paper-emoji.png" alt="" />
+      </label>
+      <input type="radio" name="choice" value="scissors" />
+      <img src="./img/scissors-emoji.png" alt="" />
     </form>
 
     <!-- Submit Button -->
@@ -27,6 +33,7 @@
 
     <!-- Result Display -->
     <div>
+      <p id="played"></p>
       <p id="result"></p>
       <p id="scoreText">Wins : 0 | Losses : 0 | Draws : 0</p>
     </div>
