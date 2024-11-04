@@ -1,0 +1,71 @@
+.subscribeButtonOff{
+    background-color: red;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: roboto;
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  .subscribeButtonOn{
+    background-color: rgb(6, 6, 6);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: roboto;
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  .youtubeContainer label{
+    font-size: 24px;
+    font-family: roboto;
+  }
+
+  .rpsContainer p{
+    font-size: 24px;
+    font-family: roboto;
+    margin: 10px 0 4px 0;
+  }
+  .rpsContainer a{
+    font-size: 16px;
+    font-family: roboto;
+    text-decoration: none;
+    color: cadetblue;
+  }
+  
+  .amazonContainer t{
+    font-family: roboto;
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  .amazonContainer p{
+    font-family: roboto;
+    font-size: 16px;
+    margin: 4px 0;
+    padding: 0;
+  }
+
+  .calculateContainer{
+    width: 500px;
+    display: grid;
+  }
+  .amazonContainer input{
+    font-family: roboto;
+    font-size: 14px;
+    border: 1px solid black;
+    padding: 13px;
+    box-sizing: border-box;
+    margin: 10px 0 0 0;
+  }
+  .amazonContainer button{
+    border: 0;
+    padding: 14px;
+    background-color: rgb(68, 137, 34);
+    color: white;
+    font-size: 14px;
+    margin: 0;
+  }
