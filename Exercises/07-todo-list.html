@@ -7,13 +7,16 @@
     <link rel="stylesheet" href="./css/07-todo-list.css" />
   </head>
   <body>
-    <div>
-      <p>Todo List</p>
+    <h1>Todo List</h1>
+    <div class="grid">
       <input type="text" placeholder="Todo Name" id="todoName" />
+      <input type="date" id="todoDate" />
       <button id="addButton">Add</button>
-      <button id="resetButton">Reset</button>
     </div>
-    <div id="todoListDiv"></div>
+    <hr />
+    <div id="todoListDiv" class="grid"></div>
+    <hr />
+    <button id="resetButton">Reset</button>
     <script src="./script/07-todo-list.js"></script>
   </body>
 </html>

@@ -1,0 +1,58 @@
+body{
+    font-family: arial;
+    margin: 20px;
+    font-size: 18px;
+}
+
+h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+input{
+    padding: 9px 19px;
+    box-sizing: border-box;
+    font-size: 18px;
+    border-radius: 4px;
+}
+
+button {
+    background-color: green;
+    color: white;
+    border: 0;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button:hover {
+    opacity: 0.9;
+}
+button:active {
+    opacity: 0.7;
+}
+
+span {
+    margin-right: 10px;
+    min-width: 300px;
+    padding: 10px 20px;
+    
+}
+hr{
+    color: black;
+    margin: 30px 0;
+}
+.grid{
+    display: grid;
+    grid-template-columns: 200px 200px 100px;
+    column-gap: 20px;
+    row-gap: 15px;
+    margin-bottom: 10px;
+}
+
+.deleteButton{
+    background-color: rgb(208, 11, 11);
+}
+
+#resetButton{
+    background-color: grey;
+}
