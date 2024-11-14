@@ -1,3 +1,5 @@
+import { cart } from "../data/cart";
+
 function render() {
   let productList = "";
   products.forEach((product) => {
