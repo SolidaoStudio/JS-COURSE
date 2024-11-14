@@ -1,5 +1,7 @@
-import { cart } from "../data/cart";
+import { cart, addToCart } from "../data/cart.js";
+import { products } from "../data/products.js";
 
+//Renderizar lista de Produtos
 function render() {
   let productList = "";
   products.forEach((product) => {
@@ -46,18 +48,34 @@ function render() {
             <div class="product-spacer"></div>
 
             <div class="added-to-cart">
-                <img src="images/icons/checkmark.png" />
-                Added
+            <img src="images/icons/checkmark.png" />
+            Added
             </div>
-
+            
             <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${
               product.id
             }">Add to Cart</button>
-    </div>
-  `;
+            </div>
+            `;
   });
 
   document.querySelector(".products-grid").innerHTML = productList;
+}
+
+//Atualizar quantidade total de itens do carrinho na HeadBar
+function updateCartQuantity() {
+  let cartQuantity = 0;
+  cart.forEach((item) => {
+    cartQuantity += item.quantity;
+  });
+
+  document.querySelector(".cart-quantity").innerHTML = cartQuantity;
+  debug(cartQuantity);
+}
+
+//console.log
+function debug(x) {
+  console.log(x);
 }
 
 render();
@@ -65,31 +83,8 @@ render();
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
     const productId = button.dataset.productId;
-    let matchItem;
-
-    cart.forEach((item) => {
-      if (productId === item.id) {
-        matchItem = item;
-      }
-    });
-
-    if (matchItem) {
-      matchItem.quantity += 1;
-    } else {
-      cart.push({
-        id: productId,
-        quantity: 1,
-      });
-    }
-
-    let cartQuantity = 0;
-
-    cart.forEach((item) => {
-      cartQuantity += item.quantity;
-    });
-
-    document.querySelector(".cart-quantity").innerHTML = cartQuantity;
-    console.log(cart);
-    console.log(cartQuantity);
+    addToCart(productId);
+    updateCartQuantity();
+    debug(cart);
   });
 });
