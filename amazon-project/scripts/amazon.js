@@ -1,7 +1,7 @@
 import { cart, addToCart } from "../data/cart.js";
 import { products } from "../data/products.js";
+import { formatCurrency } from "./utils/money.js";
 
-//Renderizar lista de Produtos
 function render() {
   let productList = "";
   products.forEach((product) => {
@@ -14,8 +14,8 @@ function render() {
                 />
             </div>
 
-            <div class="${product.name}">
-            Adults Plain Cotton T-Shirt - 2 Pack
+            <div class="product-name-container">
+            ${product.name}
             </div>
 
             <div class="product-rating-container">
@@ -28,7 +28,7 @@ function render() {
                 }</div>
             </div>
 
-            <div class="product-price">${product.priceCents / 100}</div>
+            <div class="product-price">${formatCurrency(product.priceCents)}</div>
 
             <div class="product-quantity-container">
                 <select>
@@ -62,7 +62,6 @@ function render() {
   document.querySelector(".products-grid").innerHTML = productList;
 }
 
-//Atualizar quantidade total de itens do carrinho na HeadBar
 function updateCartQuantity() {
   let cartQuantity = 0;
   cart.forEach((item) => {
@@ -73,7 +72,6 @@ function updateCartQuantity() {
   debug(cartQuantity);
 }
 
-//console.log
 function debug(x) {
   console.log(x);
 }
