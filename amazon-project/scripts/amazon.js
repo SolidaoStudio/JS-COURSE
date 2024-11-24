@@ -31,7 +31,7 @@ function render() {
             <div class="product-price">${formatCurrency(product.priceCents)}</div>
 
             <div class="product-quantity-container">
-                <select>
+                <select class="js-quantity-selector-${product.id}">
                     <option selected value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -47,7 +47,7 @@ function render() {
 
             <div class="product-spacer"></div>
 
-            <div class="added-to-cart">
+            <div class="added-to-cart js-added-to-cart-${product.id}">
             <img src="images/icons/checkmark.png" />
             Added
             </div>
@@ -65,24 +65,23 @@ function render() {
 function updateCartQuantity() {
   let cartQuantity = 0;
   cart.forEach((item) => {
-    cartQuantity += item.quantity;
+    cartQuantity += Number(item.quantity);
   });
 
   document.querySelector(".cart-quantity").innerHTML = cartQuantity;
-  debug(cartQuantity);
-}
-
-function debug(x) {
-  console.log(x);
 }
 
 render();
+updateCartQuantity(".cart-quantity");
 
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
-    const productId = button.dataset.productId;
-    addToCart(productId);
+    const {productId} = button.dataset;
+    const productQuantity = document.querySelector(`.js-quantity-selector-${productId}`).value;
+    addToCart(productId, productQuantity);
     updateCartQuantity();
-    debug(cart);
+    document.querySelector(`.js-added-to-cart-${productId}`).classList.add('added-true')
+    setTimeout(()=>{document.querySelector(`.js-added-to-cart-${productId}`).classList.remove('added-true')}, 1500)
+    
   });
 });
