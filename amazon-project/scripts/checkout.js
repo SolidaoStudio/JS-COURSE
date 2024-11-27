@@ -1,10 +1,18 @@
 import { cart, removeFromCart, updateCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
+import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js"
+
+
 
 function render (){
   let cartList = '';
   cart.forEach((cartItem, index) => {
+    
+    const today = dayjs();
+    const deliveryDateFree = today.add(7,'days');
+    const deliveryDateMid = today.add(3,'days');
+    const deliveryDateTop = today;
 
     const  productId = cartItem.productId;
 
@@ -57,7 +65,7 @@ function render (){
                 name="delivery-option-${index}">
               <div>
                 <div class="delivery-option-date">
-                  Tuesday, June 21
+                  ${deliveryDateFree.format('dddd, MMM D')}
                 </div>
                 <div class="delivery-option-price">
                   FREE Shipping
@@ -70,7 +78,7 @@ function render (){
                 name="delivery-option-${index}">
               <div>
                 <div class="delivery-option-date">
-                  Wednesday, June 15
+                  ${deliveryDateMid.format('dddd, MMM D')}
                 </div>
                 <div class="delivery-option-price">
                   $4.99 - Shipping
@@ -83,7 +91,7 @@ function render (){
                 name="delivery-option-${index}">
               <div>
                 <div class="delivery-option-date">
-                  Monday, June 13
+                  ${deliveryDateTop.format('dddd, MMM D')}
                 </div>
                 <div class="delivery-option-price">
                   $9.99 - Shipping
@@ -110,28 +118,6 @@ document.querySelectorAll('.js-delete-link').forEach(link => {
   });
 });
 
-function addEventListener(){
-  document.querySelectorAll('.update-quantity-link').forEach((link)=>{
-    link.addEventListener('click', ()=>{
-
-      const productId = link.dataset.updateId;
-      const inputBoxOff = `<span class="update-quantity-link link-primary update-link-id-${productId} " data-update-id="${productId}">update </span>`;
-      const inputBoxOn = `<input type='text' style='width: 30px;' class='input-value-of-${productId}'><span class="link-primary">Save</span>`;
-      
-      document.querySelector(`.quantity-label-id-${productId}`).innerHTML = '';
-      document.querySelector(`.update-container-id-${productId}`).innerHTML = inputBoxOn;
-  
-      document.querySelector(`.input-value-of-${productId}`).addEventListener('keypress',(event) => {
-        if (event.key === 'Enter') {
-          updateProductQuantity(productId)
-          input.innerHTML = inputBoxOff;
-        }
-      });
-
-    });
-  });
-};
-
 function updateProductQuantity (productId){
     let value = document.querySelector(`.input-value-of-${productId}`).value;
     cart.forEach(item=> {
@@ -144,6 +130,32 @@ function updateProductQuantity (productId){
     });
 }
 
+function addEventListener(){
+  document.querySelectorAll('.update-quantity-link').forEach((link)=>{
+    link.addEventListener('click', ()=>{
+
+      const id = link.dataset.updateId;
+      
+      document.querySelector(`.quantity-label-id-${id}`).innerHTML = '';
+      document.querySelector(`.update-container-id-${id}`).innerHTML = (`
+        <input type='text' style='width: 30px;' class='input-value-of-${id}'>
+        <span class="link-primary save-${id}">Save</span>`
+      );
+
+      document.querySelector(`.save-${id}`).addEventListener('click',()=>{
+        updateProductQuantity(id)
+      })
+      document.querySelector(`.input-value-of-${id}`).addEventListener('keypress',(event) => {
+        if (event.key === 'Enter') {
+          updateProductQuantity(id)
+        }
+      });
+
+    });
+  });
+};
+
+
 render();
 updateCartQuantity(".checkout-total-itens");
-addEventListener();
+addEventListener(); 
