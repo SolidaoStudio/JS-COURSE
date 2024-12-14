@@ -1,3 +1,13 @@
+export function getShipping(deliveryOptionId) {
+  let matchingShipping = 0;
+    deliveryOptions.forEach(option => {
+      if (option.id === deliveryOptionId){
+        matchingShipping = option; 
+      }
+    })
+   return matchingShipping;
+}
+
 export const deliveryOptions = [{
     id: '1',
     deliveryDate: 7,
@@ -11,4 +21,4 @@ export const deliveryOptions = [{
     deliveryDate: 1,
     priceCents: 999
   }
-];
+] ;

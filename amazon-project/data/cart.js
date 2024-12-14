@@ -22,14 +22,13 @@ export function addToCart(id, quantity) {
   let matchItem;
 
   cart.forEach((cartItem) => {
-    if (id === cartItem.id) {
+    if (id === cartItem.productId) {
       matchItem = cartItem;
     }
   });
 
-
   if (matchItem) {
-    matchItem.quantity += quantity;
+    matchItem.quantity += Number(quantity);
   } else {
     cart.push({
       productId: id,
@@ -57,7 +56,6 @@ export function removeFromCart(productId){
 
 }
 
-
 export function updateCartQuantity (x) {
   let cartQuantity = 0;
   cart.forEach((item) => {
@@ -67,4 +65,15 @@ export function updateCartQuantity (x) {
     document.querySelector(`${x}`).innerHTML = cartQuantity;
 
   saveToCart()
-}
+};
+
+export function updateDeliveryOption(option,id){
+  let matchingItem;
+  cart.forEach( cartItem => {
+    if (cartItem.productId === id){
+      matchingItem = cartItem;
+    }
+  });
+  matchingItem.deliveryOptionId = option;
+  saveToCart();
+};
