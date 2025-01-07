@@ -1,4 +1,7 @@
-export let cart = JSON.parse(localStorage.getItem('cart'));
+export let cart; 
+
+loadFromStorage();
+
 if (!cart){
   cart = [
     {
@@ -10,16 +13,22 @@ if (!cart){
       quantity: 1,
       deliveryOptionId: '1'
     }
-  ];
-}
+  ]
+};
 
+export function loadFromStorage () {
+  cart = JSON.parse(localStorage.getItem('cart'));
+};
 
 function saveToCart(){
   localStorage.setItem('cart', JSON.stringify(cart))
-}
+};
 
 export function addToCart(id, quantity) {
   let matchItem;
+  if (!quantity){
+    quantity = '1';
+  }
 
   cart.forEach((cartItem) => {
     if (id === cartItem.productId) {
@@ -28,17 +37,17 @@ export function addToCart(id, quantity) {
   });
 
   if (matchItem) {
-    matchItem.quantity += Number(quantity);
+    matchItem.quantity += parseInt(quantity);
   } else {
     cart.push({
       productId: id,
-      quantity: quantity,
+      quantity: parseInt(quantity),
       deliveryOptionId: '1'
     });
   }
 
   saveToCart();
-}
+};
 
 export function removeFromCart(productId){
 
@@ -54,7 +63,7 @@ export function removeFromCart(productId){
 
   saveToCart();
 
-}
+};
 
 export function updateCartQuantity (x) {
   let cartQuantity = 0;
@@ -77,3 +86,5 @@ export function updateDeliveryOption(option,id){
   matchingItem.deliveryOptionId = option;
   saveToCart();
 };
+
+
