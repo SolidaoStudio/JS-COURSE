@@ -1,68 +1,166 @@
-import { updateCartQuantity, cart } from "../../data/cart.js";
-import { getProduct } from "../../data/products.js";
+import { cart, removeFromCart, updateCartQuantity, updateDeliveryOption } from "../../data/cart.js";
+import { products } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
-import { getShipping } from "../../data/deliveryoptions.js";
+import { deliveryOptions } from "../../data/deliveryoptions.js";
+import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
+import { render } from "../checkout.js";
 
-function totalItemsPrice(){
-  let totalItemsPrice = 0;
-  cart.forEach( cartItem => {
-    const matchingProduct = getProduct(cartItem.productId);
-    totalItemsPrice += (matchingProduct.priceCents * cartItem.quantity);
+export function renderOrderSummary (){
+  let cartList = '';   
+
+  cart.forEach((cartItem) => {
+    const  productId = cartItem.productId;
+
+    let matchingProduct;
+    products.forEach((product) => {
+      if (productId === product.id){
+        matchingProduct = product;
+      }
+    });
+    
+    const deliveryOptionId = cartItem.deliveryOptionId;
+
+    let deliveryOption;
+
+    deliveryOptions.forEach((option) => {
+      if (deliveryOptionId === option.id){
+        deliveryOption = option;
+      }
+    });
+
+    const today = dayjs();
+    const deliveryDate = today.add(deliveryOption.deliveryDate,'days')
+    const deliveryString = deliveryDate.format('dddd, MMMM D')
+
+
+    cartList += `
+      <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
+        <div class="delivery-date"> Delivery date: ${deliveryString} </div>
+        <div class="cart-item-details-grid">
+          <img class="product-image" src="${matchingProduct.image}">
+          <div class="cart-item-details">
+
+            <div class="product-name"> ${matchingProduct.name} </div>
+            <div class="product-price"> ${formatCurrency(matchingProduct.priceCents)} </div>
+
+            <div class="product-quantity">
+              <span> 
+                Quantity: <span class="quantity-label-id-${matchingProduct.id}">${cartItem.quantity}</span>
+              </span>
+              <span class="update-container-id-${matchingProduct.id}">
+                <span class="update-quantity-link link-primary update-link-id-${matchingProduct.id}" data-update-id="${matchingProduct.id}"> Update </span>
+              </span>
+              <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
+                Delete
+              </span>
+            </div>
+          </div>
+
+          <div class="delivery-options">
+            <div class="delivery-options-title">
+              Choose a delivery option :
+            </div>
+             ${deliveryOptionsHTML(matchingProduct.id, cartItem.deliveryOptionId)}
+          </div>
+
+        </div>
+      </div>
+    ` 
   });
-  return totalItemsPrice;
-}
+  document.querySelector(".order-summary").innerHTML = cartList;
+  updateCartQuantity(".checkout-total-itens");
 
-function totalShippingPrice(){
-  let totalShippingPrice = 0;
-  cart.forEach (cartItem => {
-    const matchingShipping = getShipping(cartItem.deliveryOptionId);
-    totalShippingPrice += matchingShipping.priceCents;
+  deliveryOption();
+  deleteItemLink ();
+  updateQuantityLink(); 
+
+};
+
+function deliveryOptionsHTML(productId, deliveryOption){
+  let html = '';
+  deliveryOptions.forEach((option) => {
+    const isChecked = deliveryOption === option.id;
+    const today = dayjs();
+    const deliveryDate = today.add(option.deliveryDate,'days')
+    const price = option.priceCents === 0 ? 'FREE' : formatCurrency(option.priceCents);
+
+    html += `
+      <div class="delivery-option js-delivery-option" data-product-id="${productId}" data-delivery-option-id="${option.id}">
+        <input type="radio"
+          ${isChecked ? 'checked'  : '' }
+          class="delivery-option-input"
+          name="delivery-option-${productId}">
+        <div>
+          <div class="delivery-option-date">
+            ${deliveryDate.format('dddd, MMMM D')}
+          </div>
+          <div class="delivery-option-price">
+            $${price} - Shipping
+          </div>
+        </div>
+      </div>
+    `;
   })
-  return totalShippingPrice;
+
+  return html;
 }
 
-export function orderSummary () {
+function updateQuantityLink(){
+  document.querySelectorAll('.update-quantity-link').forEach((link)=>{
+    link.addEventListener('click', ()=>{
 
-  const itemsPrice = totalItemsPrice();
-  const ShippingPrice = totalShippingPrice();
-  const totalBeforeTax = itemsPrice + ShippingPrice;
-  const estimatedTax = totalBeforeTax/10;
-  const orderTotal = totalBeforeTax + estimatedTax;
+      const id = link.dataset.updateId;
+      
+      document.querySelector(`.quantity-label-id-${id}`).innerHTML = '';
+      document.querySelector(`.update-container-id-${id}`).innerHTML = (`
+        <input type='text' style='width: 30px;' class='input-value-of-${id}'>
+        <span class="link-primary save-${id}">Save</span>
+      `);
 
-  const orderSummaryHTML = `
-    <div class="payment-summary-title">
-      Order Summary
-    </div>
+      document.querySelector(`.save-${id}`).addEventListener('click',()=>{
+        updateProductQuantity(id)
+      })
+      document.querySelector(`.input-value-of-${id}`).addEventListener('keypress',(event) => {
+        if (event.key === 'Enter') {
+          updateProductQuantity(id)
+        }
+      });
 
-    <div class="payment-summary-row">
-      <div>Items (<span class="paymentTotalItens"></span>):</div>
-      <div class="payment-summary-money">$${formatCurrency(itemsPrice)}</div>
-    </div>
+    });
+  });
+};
 
-    <div class="payment-summary-row">
-      <div>Shipping &amp; handling:</div>
-      <div class="payment-summary-money">$${formatCurrency(ShippingPrice)}</div>
-    </div>
-
-    <div class="payment-summary-row subtotal-row">
-      <div>Total before tax:</div>
-      <div class="payment-summary-money">$${formatCurrency(totalBeforeTax)}</div>
-    </div>
-
-    <div class="payment-summary-row">
-      <div>Estimated tax (10%):</div>
-      <div class="payment-summary-money">$${formatCurrency(estimatedTax)}</div>
-    </div>
-
-    <div class="payment-summary-row total-row">
-      <div>Order total:</div>
-      <div class="payment-summary-money">$${formatCurrency(orderTotal)}</div>
-    </div>
-
-    <button class="place-order-button button-primary">
-      Place your order
-    </button>
-`
-  document.querySelector('.payment-summary').innerHTML = orderSummaryHTML;
-  updateCartQuantity('.paymentTotalItens')
+function updateProductQuantity (productId){
+    const value = document.querySelector(`.input-value-of-${productId}`).value;
+    cart.forEach(item=> {
+      if (item.productId === productId){
+        item.quantity = value;
+        render();
+      }
+    });
 }
+ 
+function deleteItemLink (){
+  document.querySelectorAll('.js-delete-link').forEach(link => {
+    link.addEventListener('click', () => {
+
+      const productId = link.dataset.productId;
+      removeFromCart(productId);
+
+      const container = document.querySelector(`.js-cart-item-container-${productId}`);
+      container.remove();
+      render();
+    });
+  }); 
+}
+
+function deliveryOption () {
+  document.querySelectorAll(".js-delivery-option").forEach(element => {
+    element.addEventListener('click',()=>{
+      const {productId, deliveryOptionId} = element.dataset;
+      updateDeliveryOption(deliveryOptionId, productId);
+      render();
+    });
+  })
+}
+
