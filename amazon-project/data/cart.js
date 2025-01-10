@@ -32,7 +32,9 @@ export function addToCart(id, quantity) {
 
   cart.forEach((cartItem) => {
     if (id === cartItem.productId) {
+      console.log(id)
       matchItem = cartItem;
+      console.log(matchItem)
     }
   });
 
@@ -41,7 +43,7 @@ export function addToCart(id, quantity) {
   } else {
     cart.push({
       productId: id,
-      quantity: parseInt(quantity),
+      quantity: (quantity),
       deliveryOptionId: '1'
     });
   }
