@@ -27,14 +27,12 @@ function saveToCart(){
 export function addToCart(id, quantity) {
   let matchItem;
   if (!quantity){
-    quantity = '1';
+    quantity = 1;
   }
 
   cart.forEach((cartItem) => {
     if (id === cartItem.productId) {
-      console.log(id)
       matchItem = cartItem;
-      console.log(matchItem)
     }
   });
 
@@ -43,7 +41,7 @@ export function addToCart(id, quantity) {
   } else {
     cart.push({
       productId: id,
-      quantity: (quantity),
+      quantity: parseInt(quantity),
       deliveryOptionId: '1'
     });
   }
