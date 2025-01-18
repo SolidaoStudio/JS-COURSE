@@ -1,18 +1,12 @@
 import { renderPaymentSummary } from "./chekout/paymentSummary.js";
 import { renderOrderSummary } from "./chekout/orderSummary.js";
-import { loadProducts } from "../data/products.js";
+import { loadProductsFetch } from "../data/products.js";
 import { loadCart } from "../data/cart.js";
 /*import "../data/backend-pratice.js"*/
 
 Promise.all([
 
-  new Promise((resolve)=>{
-    console.log( "start promise" );
-    loadProducts(()=>{
-      resolve('Test - Passing values using resolve - Success');
-    });
-  }),
-
+  loadProductsFetch(),
   new Promise((resolve)=>{
     loadCart(()=>{
       resolve();
@@ -22,7 +16,7 @@ Promise.all([
 ]).then((values)=>{
   console.log(values);
   render();
-})
+});
 
 
 
